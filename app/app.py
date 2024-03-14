@@ -7,7 +7,7 @@ from os import environ
 from langchain_community.graphs import NeptuneGraph
 
 MODEL_OPENAI_GPT4 = 'gpt-4'
-MODEL_ANTHROPIC_CLAUDE2 = 'anthropic.claude-v2:1'
+MODEL_ANTHROPIC_CLAUDE2 = 'anthropic.claude-3-sonnet-20240229-v1:0' #'anthropic.claude-v2:1'
 
 load_dotenv()
 openai_api_key = environ.get('OPENAI_AI_KEY')
