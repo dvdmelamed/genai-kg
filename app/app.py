@@ -1,13 +1,13 @@
 import streamlit as st
 from langchain_community.chat_models import ChatOpenAI
-from langchain_community.llms import Bedrock
+from langchain_community.chat_models import BedrockChat
 from langchain.chains import NeptuneOpenCypherQAChain
 from dotenv import load_dotenv
 from os import environ
 from langchain_community.graphs import NeptuneGraph
 
 MODEL_OPENAI_GPT4 = 'gpt-4'
-MODEL_ANTHROPIC_CLAUDE2 = 'anthropic.claude-3-sonnet-20240229-v1:0' #'anthropic.claude-v2:1'
+MODEL_ANTHROPIC_CLAUDE3 = 'anthropic.claude-3-sonnet-20240229-v1:0'
 
 load_dotenv()
 openai_api_key = environ.get('OPENAI_AI_KEY')
@@ -21,7 +21,7 @@ graph = NeptuneGraph(host=host, port=port, use_https=True)
 st.title('The EngiHub')
 
 def is_model_supported(model_id):
-  return model_id in [MODEL_OPENAI_GPT4, MODEL_ANTHROPIC_CLAUDE2]
+  return model_id in [MODEL_OPENAI_GPT4, MODEL_ANTHROPIC_CLAUDE3]
 
 def get_cypher_qa_template():
   return """## Cypher Query Generation
@@ -44,7 +44,7 @@ def generate_response(input_text):
     llm = ChatOpenAI(temperature=0, model=MODEL_OPENAI_GPT4, openai_api_key=openai_api_key)
   else:
     model_kwargs = dict(temperature=0, top_k=250, top_p=1)
-    llm = Bedrock(model_id=genai_model_id,model_kwargs=model_kwargs)
+    llm = BedrockChat(model_id=genai_model_id,model_kwargs=model_kwargs)
 
   chain = NeptuneOpenCypherQAChain.from_llm(
     llm=llm,
